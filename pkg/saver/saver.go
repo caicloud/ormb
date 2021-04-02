@@ -66,6 +66,11 @@ func (d Saver) Save(path string) (*model.Model, error) {
 		return nil, err
 	}
 
+	icon, err := ioutil.ReadFile(filepath.Join(path, "logo.png"))
+	if err != nil {
+		return nil, err
+	}
+
 	// Save the model from <path>/model.
 	buf := &bytes.Buffer{}
 	directoryStructure, err := TarAndGetDirectoryStructure(
@@ -79,6 +84,7 @@ func (d Saver) Save(path string) (*model.Model, error) {
 	m := &model.Model{
 		Metadata: metadata,
 		Path:     path,
+		Icon:     icon,
 		Config:   dat,
 		Content:  buf.Bytes(),
 	}
